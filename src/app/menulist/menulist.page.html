@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>menulist</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true"
+(ionScrollStart)="logScrollStart()"
+(ionScroll)="logScrolling($event)"
+(ionScrollEnd)="logScrollEnd()">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="2" class="sidenav">
+        <div *ngFor="let menu of menuList;index as i" style="padding:4px;">
+          <div >
+            <a  (click)="scrollToTop(menu)" class="menu-cat" [class.active]="menu.main_id===menuId"> 
+              <div class="menu-cat" style="padding-right: 15px;">{{menu.main_cat_name}}</div>
+            </a>
+            <div *ngIf="menuId!=undefined && (menu.main_id==menuId )">
+              <div  *ngFor="let sub of menu.sub_cat"  style=" margin: 5px;font-weight: 500;font-size: 14px;">
+                <a  (click)="scrollTo(sub.sub_id)" class="sub-menu" [class.active]="sub.sub_id===subId">
+                  <div class="sub-menu" style="padding:5px;padding-right: 15px;">{{sub.sub_name}}</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col class="main" style="padding-left:100px;">
+        <div *ngFor="let menu of menuList" style="padding:10px;" id="{{menu.main_id}}" >
+          <h4 style="font-weight: 600;font-size: 16px;color: black;">{{menu.main_cat_name}}</h4>
+          <div *ngFor="let sub of menu.sub_cat" [id]="sub.sub_id" style="padding:5px;">
+            <h5>{{sub.sub_name}}</h5>
+            <div *ngFor="let item of sub.sub_menu" [id]="item.id" style="padding:10px;">
+              {{item.item_name}}
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
